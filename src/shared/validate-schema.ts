@@ -1,22 +1,19 @@
-
 import { BadRequestException } from '@nestjs/common'
 import { z, ZodSchema } from 'zod'
-import { safeJSONParse } from './patterns/api-patterns'
-
-
+import { Request } from 'express'
 
 /**
- * Parses the body of an API Gateway event, validates it using a Zod schema, and returns the validated data.
+ * Validates the body of an Express request using a Zod schema and returns the validated data.
  *
  * @template T - The inferred type based on the provided Zod schema.
- * @param {APIGatewayEvent} event - The API Gateway event containing the body to be validated.
+ * @param {Request} req - The Express request containing the body to be validated.
  * @returns {object} - The validated data as inferred from the provided schema.
  * @throws {BadRequestException} - Throws if the body is null or invalid according to the schema.
  */
-export const validateHTTPEvent = <T>(event: any) => {
+export const validateHTTPEvent = <T>(req: Request) => {
   return {
     with: <U extends ZodSchema<T>>(schema: U): z.infer<U> => {
-      const { body } = event
+      const { body } = req
 
       console.log('Validate HTTP Event - Body - full Raw Data 🖥️ ', body)
 
@@ -24,9 +21,7 @@ export const validateHTTPEvent = <T>(event: any) => {
         throw new BadRequestException('Body is required')
       }
 
-      const parsedBody = safeJSONParse(body)
-
-      const validatedBody = schema.parse(parsedBody)
+      const validatedBody = schema.parse(body)
 
       return validatedBody
     },
