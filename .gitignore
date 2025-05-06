@@ -1,0 +1,17 @@
+# Node artifact files
+node_modules
+dist/
+lib/
+coverage
+src/**/*.package-lock.json
+src/**/*.schema.json
+
+
+# Applications
+*.app
+*.exe
+*.war
+
+# Request file
+*.http
+*.rest
