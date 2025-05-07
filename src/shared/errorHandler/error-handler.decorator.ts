@@ -13,7 +13,7 @@ import { errorHandler } from './error-handler'
 const errorWrapper = (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await fn(req, res, next);
+      return await fn(req, res, next);
     } catch (error) {
       const errorResponse = errorHandler(error);
       res.status(errorResponse.statusCode || 500).json(errorResponse);
@@ -40,6 +40,5 @@ export const errorHandlerDecorator = <T extends Record<string, (req: Request, re
     }
     newObj[key] = errorWrapper(fn) as T[typeof key];
   }
-
   return newObj;
 }
