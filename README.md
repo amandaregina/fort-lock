@@ -78,7 +78,3 @@ Built with:
 - NestJS
 - Zod for validation
 - Generate-password library for secure password generation
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
